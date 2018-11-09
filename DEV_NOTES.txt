@@ -1,6 +1,6 @@
 NEXT 
 
-!! SHOW Number of Matches; Victories; Fails !!
+!!HOW TO STOP THE GAME WHEN USER WINS OR LOOSES ?? !!
 
 
 ################################################################################3
@@ -38,3 +38,11 @@ The template must be in another file!
 
 wshir@DESKTOP-MTMVSEK MINGW64 ~/Documents/DOCKERPROJECTS/LARADOCKS/EB_Angular6_by_Example (c1/guessthenumber-pratice)
 $ git push --set-upstream origin c1/guessthenumber-pratice
+
+
+wshir@DESKTOP-MTMVSEK MINGW64 ~/Documents/DOCKERPROJECTS/LARADOCKS/EB_Angular6_by_Example (c1/guessthenumber-pratice)
+$ git commit -m'Added fontawesome | Implemented Alerts'
+
+  git push
+
+
