@@ -1,6 +1,6 @@
-# Guess the Number
+# Personal Trainer
 
-Guess the Number was built using Angular6 and TypeScript
+Personal Trainer built using Angular6 and TypeScript
 
 ## Install
 
@@ -11,4 +11,6 @@ Clone this repository and execute in your favorite shell:
 
 ## Play
 
-After completing installation, run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+After completing installation type in your favorite shell:
+
+* `npm start` to start the app in a new browser window. App files are observed and will be re-transpiled on each change.
