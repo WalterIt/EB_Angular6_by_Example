@@ -17,7 +17,7 @@ export class AppComponent {
   noMatch = 0;
   noWin = 0 ;
   noFail = 0;
-  
+
 
   constructor() {
   /**
@@ -26,16 +26,15 @@ export class AppComponent {
    * The initializeGame() method sets the starting values of the four properties in the class using the assignment operator =.
    */
       this.initializeGame();
-      
   }
   initializeGame() {
-      this.noOfTries = 5;
+      this.noOfTries = 10;
       this.original = Math.floor((Math.random() * 1000) + 1);
       this.guess = null;
       this.deviation = null;
-      this.noMatch += 1;
-      
+      this.noMatch++;
   }
+
 
   /**
    * The class holds one more method called verifyGuess(), which updates the deviation and noOfTries properties. This method is not
@@ -45,6 +44,16 @@ export class AppComponent {
   verifyGuess() {
       this.deviation = this.original - this.guess;
       this.noOfTries = this.noOfTries - 1;
+
+      if ( this.noOfTries <= 0 ) {
+        this.noFail += 1;
+        
+      }
+
+      if ( this.deviation === 0 ) {
+        this.noWin += 1;
+      }
+
 
       /*
       while ( this.noOfTries >= 0 ) {        
@@ -66,6 +75,7 @@ export class AppComponent {
       }
       */
   }
+
 
 
 }
