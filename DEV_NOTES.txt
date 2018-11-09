@@ -31,3 +31,5 @@ Giving a success  message if the user guesses the number correctly (deviation)
 
 The template must be in another file!
 
+wshir@DESKTOP-MTMVSEK MINGW64 ~/Documents/DOCKERPROJECTS/LARADOCKS/EB_Angular6_by_Example (c1/guessthenumber-pratice)
+$ git push --set-upstream origin c1/guessthenumber-pratice
