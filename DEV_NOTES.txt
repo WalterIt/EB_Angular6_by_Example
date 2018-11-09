@@ -1,4 +1,19 @@
 
+################################################################################3
+
+wshir@DESKTOP-MTMVSEK MINGW64 ~/Documents/DOCKERPROJECTS/LARADOCKS/EB_Angular6_by_Example (master)
+$ git remote add origin https://github.com/WalterIt/EB_Angular6_by_Example.git
+
+wshir@DESKTOP-MTMVSEK MINGW64 ~/Documents/DOCKERPROJECTS/LARADOCKS/EB_Angular6_by_Example (master)
+$ git push -u origin master
+
+wshir@DESKTOP-MTMVSEK MINGW64 ~/Documents/DOCKERPROJECTS/LARADOCKS/EB_Angular6_by_Example (dev)
+$ git checkout -b c1-guessthenumber
+
+#################################################################################
+
+
+CHAPTER 01 
 
 CHECK POINT 1 - Building Guess the Number!
 
