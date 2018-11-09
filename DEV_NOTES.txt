@@ -1,3 +1,7 @@
+NEXT 
+
+!! SHOW Number of Matches; Victories; Fails !!
+
 
 ################################################################################3
 
@@ -27,7 +31,8 @@ To determine what needs to go into our component, we will start by detailing the
 	• Tracking the number of guesses already made (noOfTries) (!! Max number of guesses is 15 - Show in desc order!!)
 	• Giving the user hints to improve their guess based on their input (deviation)
 Giving a success  message if the user guesses the number correctly (deviation)
-!! Show a warnig for last chance a failure picture if the user looses the game !!
+!! Show a warnig for last chance and  a failure picture if the user looses the game !!
+!! SHOW Number of Matches; Victories; Fails !!
 
 The template must be in another file!
 

@@ -1,0 +1,37 @@
+<div class="container">
+  <h2>Guess the Number - Practice!</h2>
+  <div class="card bg-light mb-3">
+      <div class="card-body">
+        <p class="card-text">Guess the computer generated random number between 1 and 1000. You have 10 tries. Good Luck!</p>
+      </div>
+  </div>
+  <div>
+    <label>Your Guess: </label>
+    <input type="number" [value]="guess" (input)="guess = $event.target.value" />&nbsp;
+    <button (click)="verifyGuess()" class="btn btn-primary btn-sm">Verify</button>&nbsp;
+    <button (click)="initializeGame()" class="btn btn-warning btn-sm">Restart</button>
+  </div>
+  <div>
+  
+    <p *ngIf="deviation < 0" class="alert alert-warning">Your guess is higher.</p>
+    <p *ngIf="deviation>0" class="alert alert-warning">Your guess is lower.</p>
+    <p *ngIf="deviation===0" class="alert alert-success">Yes! That's it. You won!</p> 
+    <p *ngIf="noOfTries === 1" class="alert alert-warning">
+      <i class="fas fa-exclamation-triangle" style="font-size:28px;color:red"></i>
+       This is your LAST GUESS, GOOD LUCK! </p>
+    <p *ngIf="noOfTries <= 0" class="alert alert-danger">
+        <i class="fas fa-exclamation-triangle" style="font-size:28px;color:red"></i>
+        
+      You lost the Game. Try it again!
+        The random number was: {{ original }}
+        <i class="fas fa-exclamation-triangle" style="font-size:28px;color:red"></i>
+    </p>
+
+  </div>
+  <p class="text-info">You still have guesses :
+    <span class="badge">{{noOfTries}}</span>
+  </p>
+  <p class="text-info">Number of Matches :
+      <span class="badge">{{ noMatch }}</span>
+  </p>
+</div>
