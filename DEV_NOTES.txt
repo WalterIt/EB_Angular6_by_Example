@@ -13,7 +13,17 @@ $ git checkout -b c1-guessthenumber
 #################################################################################
 
 
-CHAPTER 01 
+CHAPTER 01  3h 50 min
 
 CHECK POINT 1 - Building Guess the Number!
+
+Chapter 1, Getting Started, introduces you to the Angular framework. - Defining the class - 1h 33 min
+-------  The module file - 1h 11 min
+-------- Looking at how our code handles updates - 1h 06 min
+
+wshir@DESKTOP-MTMVSEK MINGW64 ~/Documents/DOCKERPROJECTS/LARADOCKS/EB_Angular6_by_Example (c1-guessthenumber)
+$ git commit -m'Property/Event Binding and Structural directives Notes'
+
+wshir@DESKTOP-MTMVSEK MINGW64 ~/Documents/DOCKERPROJECTS/LARADOCKS/EB_Angular6_by_Example (c1-guessthenumber)
+$ git push
 
