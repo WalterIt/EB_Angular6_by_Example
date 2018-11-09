@@ -17,3 +17,17 @@ CHAPTER 01
 
 CHECK POINT 1 - Building Guess the Number!
 
+Rebuilding Guess the Number!
+
+Redesigning the first component
+
+To determine what needs to go into our component, we will start by detailing the features that we want the app to support:
+	• Generating random numbers (original)
+	• Providing input for a user to guess the value (guess)
+	• Tracking the number of guesses already made (noOfTries) (!! Max number of guesses is 15 - Show in desc order!!)
+	• Giving the user hints to improve their guess based on their input (deviation)
+Giving a success  message if the user guesses the number correctly (deviation)
+!! Show a warnig for last chance a failure picture if the user looses the game !!
+
+The template must be in another file!
+
