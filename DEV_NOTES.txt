@@ -5,7 +5,7 @@ CHECK POINT 1 - Building Guess the Number!
 
 ############################################################################
 
-CHECK POINT 2 - 1h 43 min
+CHECK POINT 2.1 - 1h 43 min
 
 Chapter 2, Building Our First App – 7 Minute Workout, teaches us how to build our first real Angular app.
 

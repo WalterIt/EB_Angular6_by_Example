@@ -10,7 +10,14 @@ import { WorkoutPlan, ExercisePlan, Exercise } from './model';
 })
 export class WorkoutRunnerComponent implements OnInit {
   workoutPlan: WorkoutPlan;
+
+  /**
+   * The workoutTimeRemaining variable tracks the total time remaining for the workout, and
+   *  currentExerciseIndex tracks the currently executing exercise index. The call to startExercise
+   *  actually starts an exercise. This is how the code for startExercise looks:
+   */
   workoutTimeRemaining: number;
+
   restExercise: ExercisePlan;
   currentExerciseIndex: number;
   currentExercise: ExercisePlan;
@@ -34,10 +41,31 @@ export class WorkoutRunnerComponent implements OnInit {
   startExercise(exercisePlan: ExercisePlan) {
     this.currentExercise = exercisePlan;
     this.exerciseRunningDuration = 0;
+    /**
+     * We use the setInterval JavaScript function with a delay of one second (1,000 milliseconds) to make
+     * progress. Inside the setInterval callback, exerciseRunningDuration is incremented with each passing
+     * second. The nested clearInterval call stops the timer once the exercise duration lapses.
+          TypeScript arrow functions
+          The callback parameter passed to setInterval (()=>{...}) is a lambda function (or an arrow function
+            in ES 2015). Lambda functions are short-form representations of anonymous functions, with added benefits.
+            You can learn more about them at http://bit.ly/ng2be-ts-arrow-functions.
+     */
     const intervalId = setInterval(() => {
+      /**
+       * The if condition if (this.exerciseRunningDuration >= this.currentExercise.duration) is used to transition
+       * to the next exercise once the time duration of the current exercise lapses. We use getNextExercise to get
+       * the next exercise and call startExercise again to repeat the process. If no exercise is returned by the
+       * getNextExercise call, the workout is considered complete.
+       */
       if (this.exerciseRunningDuration >= this.currentExercise.duration) {
         clearInterval(intervalId);
         const next: ExercisePlan = this.getNextExercise();
+        /**
+         * During exercise transitioning, we increment currentExerciseIndex only if the next exercise is not a rest
+         * exercise. Remember that the original workout plan does not have a rest exercise. For the sake of consistency,
+         * we have created a rest exercise and are now swapping between rest and the standard exercises that are part of
+         * the workout plan. Therefore, currentExerciseIndex does not change when the next exercise is rest.
+         */
         if (next) {
           if (next !== this.restExercise) {
             this.currentExerciseIndex++;
@@ -54,8 +82,18 @@ export class WorkoutRunnerComponent implements OnInit {
     }, 1000);
   }
 
+  /**
+   * The getNextExercise function returns the next exercise that needs to be performed.
+        Note that the returned object for getNextExercise is an ExercisePlan object that internally contains
+        the exercise details and the duration for which the exercise runs.
+   */
   getNextExercise(): ExercisePlan {
     let nextExercise: ExercisePlan = null;
+    /**
+     * If the current exercise is rest, take the next exercise from the workoutPlan.exercises
+     * array (based on currentExerciseIndex); otherwise, the next exercise is rest, given that
+     * we are not on the last exercise (the else if condition check).
+     */
     if (this.currentExercise === this.restExercise) {
       nextExercise = this.workoutPlan.exercises[this.currentExerciseIndex + 1];
     }
@@ -65,7 +103,10 @@ export class WorkoutRunnerComponent implements OnInit {
 
     return nextExercise;
   }
-
+  /**
+   * This code builds the WorkoutPlan object and pushes the exercise data into the exercises array (an array of
+   * ExercisePlan objects), returning the newly built workout.
+   */
   buildWorkout(): WorkoutPlan {
     const workout = new WorkoutPlan('7MinWorkout', '7 Minute Workout', 10, []);
     workout.exercises.push(
