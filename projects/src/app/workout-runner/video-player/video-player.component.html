@@ -1,6 +1,10 @@
 <div class="card">
     <h4 class="card-header">Videos</h4>
   <div class="card-body">
+    <!-- The view also uses a new Angular directive called ngFor to bind to the safeVideoUrls array. The ngFor directive
+      belongs to a class of directives called structural directives. The directive's job is to take an HTML fragment and
+      regenerate it based on the number of elements in the bound collection.
+    -->
     <div *ngFor="let video of safeVideoUrls">
       <iframe width="198" height="132" [src]="video" frameborder="0" allowfullscreen></iframe>
     </div>

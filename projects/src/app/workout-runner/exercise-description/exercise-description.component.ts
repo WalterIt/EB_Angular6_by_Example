@@ -6,7 +6,7 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
   styles: []
 })
 export class ExerciseDescriptionComponent implements OnInit {
-  @Input() description: string;
+  @Input() description: string;  // The @Input decorator signifies that the component property is available for data binding.
   @Input() steps: string;
 
   constructor() { }
