@@ -13,6 +13,8 @@ export class WorkoutRunnerComponent implements OnInit {
   currentExerciseIndex: number;
   currentExercise: ExercisePlan;
   exerciseRunningDuration: number;
+  exerciseTrackingInterval: number;
+  workoutPaused: boolean;
 
   constructor() {
   }
@@ -29,12 +31,58 @@ export class WorkoutRunnerComponent implements OnInit {
     this.startExercise(this.workoutPlan.exercises[this.currentExerciseIndex]);
   }
 
+  /**
+   * To pause an exercise, we need to stop the timer. We also need to add a button somewhere in the view that allows
+   *  us to pause and resume the workout. We plan to do this by drawing a button overlay over the exercise area in the
+   *  center of the page. When clicked on, it will toggle the exercise state between paused and running. We will also
+   *  add keyboard support to pause and resume the workout using the key binding p or P. Let's update the component.
+   */
+
+  /**
+   * The implementation for pausing is simple. The first thing we do is cancel the existing setInterval setup by calling
+   *  clearInterval(this.exerciseTrackingInterval);. While resuming, we again call startExerciseTimeTracking, which again
+   *  starts tracking the time from where we left off.
+   */
+
+  pause() {
+    clearInterval(this.exerciseTrackingInterval);
+    this.workoutPaused = true;
+  }
+
+  resume() {
+    this.startExerciseTimeTracking();
+    this.workoutPaused = false;
+  }
+
+  pauseResumeToggle() {
+    if (this.workoutPaused) {
+      this.resume();
+    }
+    else {
+      this.pause();
+    }
+  }
+
+  /**
+   * The $event object is the standard DOM event object that Angular makes available for manipulation. Since this
+   *  is a keyboard event, the specialized class is KeyboardEvent. The which property is matched to ASCII values of p or P.
+   */
+  onKeyPressed(event: KeyboardEvent) {
+    if (event.which === 80 || event.which === 112) {        // 'p' or 'P' key to toggle pause and resume.
+      this.pauseResumeToggle();
+    }
+  }
+
   startExercise(exercisePlan: ExercisePlan) {
     this.currentExercise = exercisePlan;
     this.exerciseRunningDuration = 0;
-    const intervalId = setInterval(() => {
+    this.startExerciseTimeTracking();
+  }
+
+  startExerciseTimeTracking() {
+    this.exerciseTrackingInterval = window.setInterval(() => {
       if (this.exerciseRunningDuration >= this.currentExercise.duration) {
-        clearInterval(intervalId);
+        clearInterval(this.exerciseTrackingInterval);
         const next: ExercisePlan = this.getNextExercise();
         if (next) {
           if (next !== this.restExercise) {
@@ -45,10 +93,10 @@ export class WorkoutRunnerComponent implements OnInit {
         else {
           console.log('Workout complete!');
         }
+        return;
       }
-      else {
-        this.exerciseRunningDuration++;
-      }
+      ++this.exerciseRunningDuration;
+      --this.workoutTimeRemaining;
     }, 1000);
   }
 
@@ -74,11 +122,11 @@ export class WorkoutRunnerComponent implements OnInit {
           'A jumping jack or star jump, also called side-straddle hop is a physical jumping exercise.',
           'JumpingJacks.png',
           'jumpingjacks.wav',
-          `Assume an erect position, with feet together and arms at your side.
-                            Slightly bend your knees, and propel yourself a few inches into the air.
-                            While in air, bring your legs out to the side about shoulder width or slightly wider.
+          `Assume an erect position, with feet together and arms at your side. <br>
+                            Slightly bend your knees, and propel yourself a few inches into the air. <br>
+                            While in air, bring your legs out to the side about shoulder width or slightly wider. <br>
                             As you are moving your legs outward, you should raise your arms up over your head; arms should be
-                            slightly bent throughout the entire in-air movement.
+                            slightly bent throughout the entire in-air movement. <br>
                             Your feet should land shoulder width or wider as your hands meet above your head with arms slightly bent`,
           ['dmYwZH_BNd0', 'BABOdJ-2Z6o', 'c4DAnQ6DtF8']),
         30));
