@@ -7,18 +7,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StartComponent } from './start/start.component';
 import { FinishComponent } from './finish/finish.component';
+import { WorkoutHistoryComponent } from './workout-history/workout-history.component';
+import { CoreModule } from './core/core.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     StartComponent,
-    FinishComponent
+    FinishComponent,
+    WorkoutHistoryComponent
   ],
   imports: [
     BrowserModule,
     WorkoutRunnerModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

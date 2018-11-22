@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { WorkoutPlan, ExercisePlan, Exercise } from './model';
 import { Router } from '@angular/router';
+import { WorkoutHistoryTrackerService } from '../core/workout-history-tracker.service';
 
 @Component({
   selector: 'abe-workout-runner',
   templateUrl: './workout-runner.component.html',
   styles: []
 })
-export class WorkoutRunnerComponent implements OnInit {
+export class WorkoutRunnerComponent implements OnInit, OnDestroy {
   workoutPlan: WorkoutPlan;
   workoutTimeRemaining: number;
   restExercise: ExercisePlan;
@@ -17,7 +18,11 @@ export class WorkoutRunnerComponent implements OnInit {
   exerciseTrackingInterval: number;
   workoutPaused: boolean;
 
-  constructor( private router: Router ) {
+  constructor( private router: Router, private tracker: WorkoutHistoryTrackerService ) {
+  }
+
+  ngOnDestroy() {
+    this.tracker.endTracking(false);
   }
 
   ngOnInit() {
@@ -27,6 +32,7 @@ export class WorkoutRunnerComponent implements OnInit {
   }
 
   start() {
+    this.tracker.startTracking();
     this.workoutTimeRemaining = this.workoutPlan.totalWorkoutDuration();
     this.currentExerciseIndex = 0;
     this.startExercise(this.workoutPlan.exercises[this.currentExerciseIndex]);
@@ -84,6 +90,9 @@ export class WorkoutRunnerComponent implements OnInit {
     this.exerciseTrackingInterval = window.setInterval(() => {
       if (this.exerciseRunningDuration >= this.currentExercise.duration) {
         clearInterval(this.exerciseTrackingInterval);
+        if (this.currentExercise !== this.restExercise) {
+          this.tracker.exerciseComplete(this.workoutPlan.exercises[this.currentExerciseIndex]);
+        }
         const next: ExercisePlan = this.getNextExercise();
         if (next) {
           if (next !== this.restExercise) {
@@ -93,6 +102,7 @@ export class WorkoutRunnerComponent implements OnInit {
         }
         else {
           // console.log('Workout complete!');
+          this.tracker.endTracking(true);
           this.router.navigate( ['/finish'] );
         }
         return;
