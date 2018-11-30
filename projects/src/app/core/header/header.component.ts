@@ -12,7 +12,6 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   private showHistoryLink = true;
-
   constructor(private router: Router) {
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd))
@@ -23,5 +22,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  
 
 }

@@ -1,16 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { WorkoutRunnerModule } from './workout-runner/workout-runner.module';
-import { AppRoutingModule } from './app-routing.module';
-
-import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
+import { WorkoutRunnerModule } from './workout-runner/workout-runner.module';
 import { StartComponent } from './start/start.component';
-import { WorkoutHistoryComponent } from './workout-history/workout-history.component';
 import { FinishComponent } from './finish/finish.component';
+import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
+import { WorkoutHistoryComponent } from './workout-history/workout-history.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,9 +19,9 @@ import { FinishComponent } from './finish/finish.component';
     WorkoutHistoryComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     WorkoutRunnerModule,
-    AppRoutingModule,
     CoreModule,
     SharedModule
   ],
@@ -30,4 +29,3 @@ import { FinishComponent } from './finish/finish.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-

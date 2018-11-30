@@ -3,22 +3,6 @@
     <abe-exercise-description [description]="currentExercise.exercise.description" [steps]="currentExercise.exercise.procedure"></abe-exercise-description>
   </div>
   <div id="exercise-pane" class="col-sm-6">
-    <!--
-      Now we just need to invoke the pauseResumeToggle function for the view. Add the following content to workout-runner.html:
-    -->
-    <!--  EVENT  BINDING INFRASTRUCTURE
-      The click event handler on the div toggles the workout running state, and the ngClass directive is used to toggle the class between ion-md-pause and ion-md-play- standard Angular stuff. What is missing now is the ability to pause and resume on a P key press.
-      One approach could be to apply a keyup event handler on the div:
-      <div id="pause-overlay" (keyup)= "onKeyPressed($event)">
-      But there are some shortcomings to this approach:
-
-      The div element does not have a concept of focus, so we also need to add the tabIndex attribute on the div to make it work
-      Even then, it works only when we have clicked on the div at least once
-      There is a better way to implement this; attach the event handler to the global window event keyup. This is how the event binding should be applied on the div:
-      <div id="pause-overlay" (window:keyup)= "onKeyPressed($event)">
-
-      Make note of the special window: prefix before the keyup event. We can use this syntax to attach events to any global object, such as the document. A handy and very powerful feature of Angular binding infrastructure! The onKeyPressed event handler needs to be added to WorkoutRunnerComponent
-    -->
     <div id="pause-overlay" (click)="pauseResumeToggle()" (window:keyup)="onKeyPressed($event)">
       <span class="pause absolute-center" [ngClass]="{'ion-md-pause' : !workoutPaused, 'ion-md-play' : workoutPaused}"></span>
     </div>
@@ -36,20 +20,6 @@
       <h4 class="col-sm-6 text-left">Time Remaining:
         <strong>{{currentExercise.duration-exerciseRunningDuration}}</strong>
       </h4>
-      <!--  It will be nice for the user to be told what the next exercise is during the short rest period between exercises.
-         This will help them prepare for the next exercise. So let's add it.
-         To implement this feature, we can simply output the title of the next exercise from the workoutPlan.exercises array.
-          We show the title next to the Time Remaining countdown section.
-      -->
-      <!--
-        We wrap the existing Time Remaining h1 and add another h3 tag to show the next exercise inside a new div with some style updates. Also, there is a new directive, ngIf, in the second h3. The * prefix implies that it belongs to the same set of directives that ngFor belongs: structural directives. Let's talk a bit about ngIf.
-
-        The ngIf directive is used to add or remove a specific section of the DOM based on whether the expression provided to it returns true or false. The DOM element is added when the expression evaluates to true and is destroyed otherwise. Isolate the ngIf declaration from the preceding view:
-          ngIf="currentExercise.details.name=='rest'"
-
-        The directive expression checks whether we are currently in the rest phase and accordingly shows or hides the linked h3.
-          Also in the same h3, we have an interpolation that shows the name of the exercise from the workoutPlan.exercises array.
-      -->
       <h4 class="col-sm-6 text-right" *ngIf="currentExercise.exercise.name=='rest'">Next up:
         <strong>{{workoutPlan.exercises[currentExerciseIndex + 1].exercise.title}}</strong>
       </h4>

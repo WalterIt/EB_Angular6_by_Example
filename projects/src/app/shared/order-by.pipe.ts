@@ -4,12 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'orderBy'
 })
 export class OrderByPipe implements PipeTransform {
-  /**
-   * The preceding field variable receives the field on which sorting is required. If the field has a - prefix, we truncate
-   *  the prefix before sorting the array in descending order.
-   * The pipe also uses the spread operator, [...], which may be new to you. Learn more about the spread operator on MDN at
-   *  http://bit.ly/js-spread.
-   */
+
   transform(value: Array<any>, field: string): any {
     if (value == null || value.length <= 1) {
       return value;

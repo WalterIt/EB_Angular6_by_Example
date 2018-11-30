@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { WorkoutPlan, ExercisePlan, Exercise } from './model';
 import { Router } from '@angular/router';
 import { WorkoutHistoryTrackerService } from '../core/workout-history-tracker.service';
@@ -6,7 +6,7 @@ import { WorkoutHistoryTrackerService } from '../core/workout-history-tracker.se
 @Component({
   selector: 'abe-workout-runner',
   templateUrl: './workout-runner.component.html',
-  styles: []
+  styles:[]
 })
 export class WorkoutRunnerComponent implements OnInit, OnDestroy {
   workoutPlan: WorkoutPlan;
@@ -18,7 +18,8 @@ export class WorkoutRunnerComponent implements OnInit, OnDestroy {
   exerciseTrackingInterval: number;
   workoutPaused: boolean;
 
-  constructor( private router: Router, private tracker: WorkoutHistoryTrackerService ) {
+  constructor(private router: Router,
+    private tracker: WorkoutHistoryTrackerService) {
   }
 
   ngOnDestroy() {
@@ -37,19 +38,6 @@ export class WorkoutRunnerComponent implements OnInit, OnDestroy {
     this.currentExerciseIndex = 0;
     this.startExercise(this.workoutPlan.exercises[this.currentExerciseIndex]);
   }
-
-  /**
-   * To pause an exercise, we need to stop the timer. We also need to add a button somewhere in the view that allows
-   *  us to pause and resume the workout. We plan to do this by drawing a button overlay over the exercise area in the
-   *  center of the page. When clicked on, it will toggle the exercise state between paused and running. We will also
-   *  add keyboard support to pause and resume the workout using the key binding p or P. Let's update the component.
-   */
-
-  /**
-   * The implementation for pausing is simple. The first thing we do is cancel the existing setInterval setup by calling
-   *  clearInterval(this.exerciseTrackingInterval);. While resuming, we again call startExerciseTimeTracking, which again
-   *  starts tracking the time from where we left off.
-   */
 
   pause() {
     clearInterval(this.exerciseTrackingInterval);
@@ -70,10 +58,6 @@ export class WorkoutRunnerComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * The $event object is the standard DOM event object that Angular makes available for manipulation. Since this
-   *  is a keyboard event, the specialized class is KeyboardEvent. The which property is matched to ASCII values of p or P.
-   */
   onKeyPressed(event: KeyboardEvent) {
     if (event.which === 80 || event.which === 112) {        // 'p' or 'P' key to toggle pause and resume.
       this.pauseResumeToggle();
@@ -101,9 +85,8 @@ export class WorkoutRunnerComponent implements OnInit, OnDestroy {
           this.startExercise(next);
         }
         else {
-          // console.log('Workout complete!');
           this.tracker.endTracking(true);
-          this.router.navigate( ['/finish'] );
+          this.router.navigate(['/finish']);
         }
         return;
       }
