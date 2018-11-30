@@ -18,6 +18,13 @@ export class WorkoutRunnerComponent implements OnInit, OnDestroy {
   exerciseTrackingInterval: number;
   workoutPaused: boolean;
 
+  /**
+   *  Angular allows us to raise events too. Angular components and directives can expose custom events using the
+   *  EventEmitter class and the @Output decorator.
+   *
+   * In Angular, we can create and raise our own events, events that signify something noteworthy has happened in our
+   *  component/directive. Using the @Output decorator and the EventEmitter class, we can define and raise custom events.
+   */
   @Output() exercisePaused: EventEmitter<number> = new EventEmitter<number>();
   @Output() exerciseResumed: EventEmitter<number> = new EventEmitter<number>();
   @Output() exerciseProgress: EventEmitter<ExerciseProgressEvent> = new EventEmitter<ExerciseProgressEvent>();

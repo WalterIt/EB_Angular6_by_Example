@@ -9,17 +9,21 @@ import { overlayConfigFactory } from 'ngx-modialog';
   templateUrl: './video-player.component.html',
   styles: [],
 })
-export class VideoPlayerComponent implements OnInit{
+export class VideoPlayerComponent implements OnInit {
 
   @Input() videos: Array<string>;
   @Output() playbackStarted: EventEmitter<any> = new EventEmitter<any>();
   @Output() playbackEnded: EventEmitter<any> = new EventEmitter<any>();
-  
+
   constructor(private modal: Modal) { }
 
   ngOnInit() {
   }
 
+  /**
+   * The playVideo function calls the Modal class' open function, passing in the dialog component to open and a new instance
+   *  of the VideoDialogContext class with the videoId of the YouTube video.
+   */
   playVideo(videoId: string) {
     this.playbackStarted.emit(null);
     var dialog = this.modal.open(VideoDialogComponent, overlayConfigFactory(new VideoDialogContext(videoId)));

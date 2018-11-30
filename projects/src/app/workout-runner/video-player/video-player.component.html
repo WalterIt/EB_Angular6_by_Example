@@ -1,6 +1,10 @@
 <div class="card">
   <h4 class="card-header">Videos</h4>
   <div class="card-body">
+    <!--  The preceding handler invokes the playVideo method, passing in the video clicked. The playVideo function,
+       in turn, opens the corresponding video dialog. Add the playVideo implementation to video-player.component.ts
+        as highlighted:
+    -->
     <div *ngFor="let video of videos" (click)="playVideo(video)" class="row">
       <div class="col-sm-12 p-2">
         <img class="video-image" [src]="'//i.ytimg.com/vi/'+video+'/hqdefault.jpg'" />

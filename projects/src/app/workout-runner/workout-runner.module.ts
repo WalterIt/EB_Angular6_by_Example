@@ -21,6 +21,7 @@ import { SharedModule } from '../shared/shared.module';
     VideoDialogComponent,
     WorkoutContainerComponent,
     WorkoutAudioComponent],
+  // The newly created VideoDialogComponent needs to be added to entryComponents as it is not explicitly used in the component tree.
   entryComponents: [VideoDialogComponent]
 })
 export class WorkoutRunnerModule { }
