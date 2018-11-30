@@ -5,6 +5,8 @@ import { ExerciseDescriptionComponent } from './exercise-description/exercise-de
 import { VideoPlayerComponent } from './video-player/video-player.component';
 import { SecondsToTimePipe } from './shared/seconds-to-time.pipe';
 import { VideoDialogComponent } from './video-player/video-dialog/video-dialog.component';
+import { WorkoutContainerComponent } from './workout-container/workout-container.component';
+import { WorkoutAudioComponent } from './workout-audio/workout-audio.component';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -12,15 +14,13 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     SharedModule
   ],
-  exports: [
-    WorkoutRunnerComponent
-  ],
   declarations: [WorkoutRunnerComponent,
     ExerciseDescriptionComponent,
     VideoPlayerComponent,
     SecondsToTimePipe,
-    VideoDialogComponent],
+    VideoDialogComponent,
+    WorkoutContainerComponent,
+    WorkoutAudioComponent],
   entryComponents: [VideoDialogComponent]
-
 })
 export class WorkoutRunnerModule { }
