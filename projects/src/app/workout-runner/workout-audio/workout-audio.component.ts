@@ -8,17 +8,6 @@ import { ExerciseProgressEvent, ExerciseChangedEvent } from '../model';
   styles: []
 })
 export class WorkoutAudioComponent implements OnInit {
-  /**
-   * The interesting bit in this outline is the @ViewChild decorator against the five properties. The @ViewChild decorator
-   *  allows us to inject a child component/directive/element reference into its parent. The parameter passed to the decorator
-   *  is the template variable name, which helps DI match the element/directive to inject. When Angular instantiates the main
-   *  WorkoutAudioComponent, it injects the corresponding audio directives based on the @ViewChild decorator and the template
-   *  reference variable name passed.
-   *
-   * The @ViewChild decorator instructs the Angular DI framework to search for some specific child component/directive/element
-   *  in the component tree and inject it into the parent. This allows the parent component to interact with child components/element
-   *  using the reference to the child, a new communication pattern!
-   */
   @ViewChild('ticks') private ticks: MyAudioDirective;
   @ViewChild('nextUp') private nextUp: MyAudioDirective;
   @ViewChild('nextUpExercise') private nextUpExercise: MyAudioDirective;
