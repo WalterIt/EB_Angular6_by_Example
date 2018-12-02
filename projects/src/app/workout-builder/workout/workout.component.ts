@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { WorkoutPlan, ExercisePlan } from '../../core/model';
 import { WorkoutBuilderService } from '../builder-services/workout-builder.service';
 

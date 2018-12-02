@@ -1,20 +1,51 @@
+/**
+ * WorkoutService as a workout and exercise repository
+ *
+ * The plan here is to create a WorkoutService instance that is responsible for exposing the exercise and
+ *  workout data across the two applications. The main responsibilities of the service include:
+ *   - Exercise-related CRUD operations: Get all exercises, get a specific exercise based on its name, create
+ *     an exercise, update an exercise, and delete it
+ *   - Workout-related CRUD operations: These are similar to the exercise-related operations, but targeted toward
+ *     the workout entity
+ */
 import {Injectable} from '@angular/core';
 
 import {Exercise, ExercisePlan, WorkoutPlan } from './model';
 import { CoreModule } from './core.module';
 
+/**
+ * As we have mentioned before, the implementation of an Angular service is straightforward. Here, we are declaring
+ *  a class with the name WorkoutService and decorating it with @Injectable . Within the @Injectable decorator, we
+ *  have  sets the provided-in property to CoreModule.  This registers WorkoutService as a provider with Angular's
+ *  Dependency Injection framework and makes it available throughout our application.
+ */
 @Injectable({
   providedIn: CoreModule
 })
 export class WorkoutService {
+    /**
+     * In the class definition, we first create two arrays: one for Workouts and one for Exercises. These arrays
+     *  are of types WorkoutPlan and Exercise respectively, and we therefore need to import WorkoutPlan and Exericse
+     *  from model.ts to get the type definitions for them.
+     */
     workouts: Array<WorkoutPlan> = [];
     exercises: Array<Exercise> = [];
 
     constructor() {
+        /**
+         * The constructor calls two methods to set up the Workouts and Services List. At the moment, we are just
+         *  using an in-memory store that populates these lists with data.
+         */
         this.setupInitialExercises();
         this.setupInitialWorkouts();
     }
 
+    /**
+     * The two methods, getExercises and getWorkouts, as the names suggest, return a list of exercises and
+     *  workouts respectively. Since we plan to use the in-memory store to store workout and exercise data,
+     *  the Workouts and Exercises arrays store this data. As we go along, we will be adding more functions
+     *  to the service.
+     */
     getExercises() {
       return this.exercises;
   }

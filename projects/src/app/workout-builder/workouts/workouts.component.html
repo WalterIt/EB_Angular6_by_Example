@@ -4,6 +4,14 @@
     </div>
     <div class="col-sm-10 builder-content">
       <h1 class="text-center">Workouts</h1>
+      <!--
+        We are using one of the Angular core directives, ngFor, to loop through the list of workouts and display them in a list on the page. We add the * sign in front of ngFor to identify it as an Angular directive. Using a let statement, we assign workout as a local variable that we use to iterate through the workout list and identify the values to be displayed for each workout (for example, workout.title). We then use one of our custom pipes, orderBy, to display a list of workouts in alphabetical order by title. We are also using another custom pipe, secondsToTime, to format the time displayed for the total workout duration.
+
+        If you are coding along with us, you will need to move the secondsToTime pipe into the shared folder and include it in the SharedModule. Then, add SharedModule to WorkoutBuilderModule as an additional import. That change has already been made in checkpoint 4.4 in the GitHub repository.
+
+        Finally, we bind the click event to the following onSelect method that we add to our component:
+         This sets up navigation to the workout details page. This navigation happens when we click on an item in the workout list. The selected workout name is passed as part of the route/URL to the workout detail page.
+      -->
       <div *ngFor="let workout of workoutList|orderBy:'title'" class="workout tile" (click)="onSelect(workout)">
         <div class="title">{{workout.title}}</div>
         <div class="stats">
