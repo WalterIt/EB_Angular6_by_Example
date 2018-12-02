@@ -19,11 +19,11 @@ import { SharedModule } from './shared/shared.module';
     WorkoutHistoryComponent
   ],
   imports: [
-    AppRoutingModule,
     BrowserModule,
     WorkoutRunnerModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { WorkoutPlan, ExercisePlan, Exercise, ExerciseProgressEvent, ExerciseChangedEvent } from './model';
+import { WorkoutPlan, ExercisePlan, Exercise, ExerciseProgressEvent, ExerciseChangedEvent } from '../core/model';
 import { Router } from '@angular/router';
 import { WorkoutHistoryTrackerService } from '../core/workout-history-tracker.service';
 
@@ -31,7 +31,7 @@ export class WorkoutRunnerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.tracker.endTracking(false);
-    if (this.exerciseTrackingInterval) clearInterval(this.exerciseTrackingInterval);
+    if (this.exerciseTrackingInterval) { clearInterval(this.exerciseTrackingInterval); }
   }
 
   ngOnInit() {
