@@ -1,4 +1,9 @@
 import { NgModule } from '@angular/core';
+/**  CommonModule
+* The only thing that might look different here from the other modules that we have created is that we are
+   importing CommonModule instead of BrowserModule. This avoids importing the whole of BrowserModule a second
+   time, which would generate an error when we get to implementing lazy loading for this module.
+ */
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
