@@ -8,11 +8,26 @@
             <h2 class="col-sm-9">{{workout.title||'Workout Title'}} </h2>
          </div>
          <form #f="ngForm" name="formWorkout" (ngSubmit)="save(f.form)" class="row">
+            <!--
+              The exercise list div (id="exercise-list") lists the exercises that are part of the workout in order.
+               We display them as top-to-bottom tiles in the left part of the content area. Functionally, this template has:
+
+                  -  The Delete button to delete the exercise
+                  -  Reorder buttons to move the exercise up and down the list, as well as to the top and bottom
+            -->
              <div id="exercises-list" class="col-sm-2 exercise-list" ngModelGroup="exercises">
+                <!--
+                  You will notice that we are using the * asterisk in front of ngFor,  which is shorthand for the
+                   <template> tag. We are also using let to set two local variables: exerisePlan to identify an item
+                      in the list of exercises and i to set up an index value that we will use to show a number for the
+                       exercises as they are displayed on the screen. We will also use the index value to manage reordering
+                        and deleting exercises from the list.
+                -->
                  <div *ngFor="let exercisePlan of workout.exercises; let i=index" class="exercise-item">
                      <div class="exercise tile" [ngModelGroup]="i">
                          <div class="title">
                              {{exercisePlan.exercise.title}}
+                             <!-- The Delete button to delete the exercise -->
                              <span class="btn float-right trashcan" (click)="removeExercise(exercisePlan)"><span class="ion-ios-trash-outline"></span></span>
                          </div>
                          <div class="index"><span>{{i +1}}</span></div>
@@ -26,6 +41,7 @@
                                  </select>
                              </div>
                          </div>
+                         <!-- Reorder buttons to move the exercise up and down the list, as well as to the top and bottom -->
                          <div class="order">
                              <button type="button" class="btn btn-info tile-outside-button" (click)="moveExerciseTo(exercisePlan,0)"><span class="ion-ios-arrow-dropup-outline"></span></button>
                              <button type="button" class="btn btn-info tile-inside-button" (click)="moveExerciseTo(exercisePlan,i-1)"><span class="ion-ios-arrow-up"></span></button>
@@ -39,9 +55,22 @@
                     <label *ngIf="exerciseCount.control.hasError('pattern') && (removeTouched || submitted)" class="alert alert-danger extended-validation-message">At least one exercise is required</label>
                 </div>
              </div>
+
+             <!--
+               The second div element for workout data (id="workout-data") contains the HTML input element for details such
+                as name, title, and rest duration, and a button to save workout changes.
+
+                The complete list has been wrapped inside the HTML form element so that we can make use of the form-related capabilities that Angular provides. So, what are these capabilities?
+             -->
              <div id="workout-data" class="col-sm-3 workout-data">
                 <div class="form-group row">
                     <label for="workout-name">Name:</label>
+                    <!--
+                      The preceding [(ngModel)] directive sets up a two-way binding between the input control and the workout.name model property. The brackets and
+                       parentheses should each look familiar. Previously, we used them separately from each other: the [] brackets for property binding and the ()
+                       parentheses for event binding. In the latter case, we usually bound the event to a call to a method in the component associated with the template.
+                       You can see an example of this in the form with the button that a user clicks on to remove an exercise:
+                    -->
                     <input type="text" name="workoutName" #name="ngModel" class="form-control" id="workout-name" placeholder="Enter workout name. Must be unique." [(ngModel)]="workout.name" [ngModelOptions]="{updateOn: 'blur'}" required>
                     <label *ngIf="name.control.hasError('required') && (name.touched || submitted)" class="alert alert-danger validation-message">Name is required</label>
                 </div>

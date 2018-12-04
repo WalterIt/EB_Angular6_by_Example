@@ -42,6 +42,15 @@ export class WorkoutComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    /**
+     * The method subscribes to the route and extracts the workout from the route.data. There is no need to check
+     *  the workout exists because we have already done that in the WorkoutResolver.
+     *
+     * We are subscribing to the route.data because as an ActivatedRoute, the route exposes its data as an  Observable,
+     *  which can change during the lifetime of the component. This gives us the ability to reuse the same component
+     *  instance with different parameters, even though the OnInit life cycle event for that component is called only
+     *  once. We'll cover Observables in detail in the next chapter.
+     */
       this.sub = this.route.data
           .subscribe(
             (data: { workout: WorkoutPlan }) => {
