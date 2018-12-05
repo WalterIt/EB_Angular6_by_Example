@@ -62,6 +62,11 @@ export class WorkoutBuilderService {
         this.buildingWorkout.exercises.splice(toIndex, 0, this.buildingWorkout.exercises.splice(currentIndex, 1)[0]);
     }
 
+
+    /**
+     * We only add one save method to WorkoutBuilderService as we are already tracking the context
+     *  in which workout construction is going on: ....
+     */
     save() {
       const workout = this.newWorkout ?
           this.workoutService.addWorkout(this.buildingWorkout) :

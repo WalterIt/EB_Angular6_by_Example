@@ -14,6 +14,13 @@
 
                   -  The Delete button to delete the exercise
                   -  Reorder buttons to move the exercise up and down the list, as well as to the top and bottom
+
+              Notice here that we are binding to the nested model: ExercisePlan. And, we may have multiple exercises to which we will be applying this binding.
+               With that being the case, we have to make use of another Angular form directive—ngModelGroup—to handle these bindings. ngModelGroup will allow us
+                to create a nested group within our model that will contain the list of exercises included in the workout and then in turn loop over each exercise
+                 to bind its duration to the model.
+
+              To start with, we will add ngModelGroup to the div tag that we have created within the form to hold our list of exercises:
             -->
              <div id="exercises-list" class="col-sm-2 exercise-list" ngModelGroup="exercises">
                 <!--
@@ -22,6 +29,19 @@
                       in the list of exercises and i to set up an index value that we will use to show a number for the
                        exercises as they are displayed on the screen. We will also use the index value to manage reordering
                         and deleting exercises from the list.
+
+                  That takes care of creating the nested list of exercises. Now, we have to handle the individual exercises within that list,
+                   and we can do that by adding another ngModelGroup to the individual divs that contain each exercise:
+                   <div class="exercise tile" [ngModelGroup]="i">
+
+                  Here, we are using the index in our for loop to dynamically create an individual model group for each of our exercises. These
+                   model groups will be nested inside the first model group that we created.
+
+                  This is powerful stuff that enables us to create complicated forms with nested models, all of which can use ngModel for databinding.
+
+                        You may have noticed a subtle difference in the two ngModelGroup directive tags we just introduced. The second of the two is wrapped
+                         in angle brackets, [], while the first is not. This is because with the first tag we are just naming our model group, whereas with
+                          the second we are binding it dynamically to each exercise's div tag using the index of our for loop.
                 -->
                  <div *ngFor="let exercisePlan of workout.exercises; let i=index" class="exercise-item">
                      <div class="exercise tile" [ngModelGroup]="i">
@@ -35,7 +55,16 @@
                              <div class="image">
                                  <img [src]="exercisePlan.exercise.image? '/assets/images/' + exercisePlan.exercise.image: '/static/images/' + 'running.png'" />
                              </div>
+
                              <div class="details">
+                                <!--
+                                  We are using ngFor here to bind to an array, durations, which is in the Workout component class. The array looks like this:
+                                    [{ title: "15 seconds", value: 15 },
+                                      { title: "30 seconds", value: 30 }, ...]
+                                    The ngFor component will loop over the array and populate the drop-down values with the corresponding values in the array with
+                                     the title for each item being displayed using interpolation, {{duration.title}}. And [(ngModel)] then binds the drop-down selection
+                                     to the exercisePlan.duration in the model.
+                                -->
                                  <select class="select-duration form-control" name="duration" [(ngModel)]="exercisePlan.duration">
                                      <option *ngFor="let duration of durations" [value]="duration.value">{{duration.title}}</option>
                                  </select>
@@ -51,7 +80,37 @@
                      </div>
                  </div>
                  <div>
+                   <!--
+                     Custom validation messages for an exercise
+
+                     A workout without any exercise is of no use. There should at least be one exercise in the workout and we should validate
+                      this restriction.
+
+                    The problem with exercise count validation is that it is not something that the user inputs directly and the framework validates.
+                     Nonetheless, we still want a mechanism to validate the exercise count in a manner similar to other validations on this form.
+
+                     What we will do is add a hidden input box to the form that contains the count of the exercises. We will then bind this to ngModel
+                      and add a pattern validator that will check to make sure that there is more than one exercise. We will set the value of the input
+                       box to the count of the exercises: ...
+
+                      Then, we will attach a validation message to it similar to what we just did with our other validators: *ngIf="exerciseCount.control.hasError('pattern')"
+                   -->
                     <input type="hidden" name="exerciseCount" #exerciseCount="ngModel" class="form-control" id="exercise-count" [(ngModel)]="workout.exercises.length" pattern="[1-9][0-9]*">
+                    <!--
+                      One nuisance with our newly implemented Exercise Count validation is that it shows when the screen for a new Workout
+                       first appears. With this message, we are not able to use ng-touched to hide the display. This is because the exercises
+                        are being added programmatically and the hidden input we are using to track their count never changes from untouched as
+                         exercises are added or removed.
+
+                       To fix this problem, we need an additional value to check when the state of the exercise list has been reduced to zero,
+                        except when the form is first loaded. The only way that situation can happen is if the user adds and then removes exercises
+                         from a workout to the point that there are no more exercises. So, we'll add another property to our component that we can
+                          use to track whether the remove method has been called. We call that value removeTouched and set its initial value to false:
+
+                              removeTouched: boolean = false;
+
+                      Next, we will add removeTouched to our validation message conditions, like so:
+                    -->
                     <label *ngIf="exerciseCount.control.hasError('pattern') && (removeTouched || submitted)" class="alert alert-danger extended-validation-message">At least one exercise is required</label>
                 </div>
              </div>
@@ -71,12 +130,67 @@
                        parentheses for event binding. In the latter case, we usually bound the event to a call to a method in the component associated with the template.
                        You can see an example of this in the form with the button that a user clicks on to remove an exercise:
                     -->
-                    <input type="text" name="workoutName" #name="ngModel" class="form-control" id="workout-name" placeholder="Enter workout name. Must be unique." [(ngModel)]="workout.name" [ngModelOptions]="{updateOn: 'blur'}" required>
+
+                    <!--
+                       ngModel
+                       ngModel is the building block that we will use to implement validation. It does two things for us: it maintains the model state and
+                        provides a mechanism for identifying validation errors and displaying validation messages.
+
+                        To get started, we need to assign ngModel to a local variable in all of our form controls that we will be validating. In each case,
+                         we need to use a unique name for this local variable. For example, for workout name we add #name="ngModel" within the input tag for
+                          that control along with the HTML 5 required attribute. The workout name input tag should now look like this:
+
+<input type="text" name="workoutName" #name="ngModel" class="form-control" id="workout-name" placeholder="Enter workout name. Must be unique." [(ngModel)]="workout.name" required>
+                    -->
+
+                    <!--
+                      Displaying appropriate validation messages
+
+                      Now, the input needs to have a value; otherwise, the validation fails. But, how can we know if the validation has failed? ngModel
+                       comes to our rescue here. It can provide the validation state of the particular input. And that gives us what we need to display
+                        an appropriate validation message.
+
+                        Let's go back to the input control for the Workout name. In order to get a validation message to display, we have to first modify the input tag to the following:
+                    -->
+                    <input type="text" name="workoutName" #name="ngModel" class="form-control" id="workout-name" placeholder="Enter workout name. Must be unique." [(ngModel)]="workout.name" [ngModelOptions]="{updateOn: 'blur'}" required >
+                    <!-- <label>{{spy.className}}</label>-->
+
+                    <!--
+                      We have added a local variable called #name and assigned ngModel to it. This is called a template reference variable and we can
+                       use it with the following label to display a validation message for the input:
+
+                      We are showing the validation message in the event that the name is not provided and the control has been touched. To check the first
+                       condition, we retrieve the hasError property of the control and see if the error type is required. We check to see if the name input
+                        has been touched because we do not want the message to display when the form first loads for a new workout.
+
+                            You will notice that we are using a somewhat more verbose style to identify validation errors than is required in this situation.
+                             Instead of name.control.hasError('required'), we could have used !name. valid and it would have worked perfectly fine. However,
+                              using the more verbose approach allows us to identify validation errors with greater specificity, which will be essential when
+                               we start adding multiple validators to our form controls. We'll look at using multiple validators a little later in this chapter.
+                               For consistency, we'll stick with the more verbose approach.
+
+                            Load the new Workout page (/builder/workouts/new) now. Enter a value in the name input box and then delete it. The error label appears as shown in the following screenshot:
+                    -->
                     <label *ngIf="name.control.hasError('required') && (name.touched || submitted)" class="alert alert-danger validation-message">Name is required</label>
                 </div>
                 <div class="form-group row">
                     <label for="workout-title">Title:</label>
                     <input type="text" name="title" class="form-control" #title="ngModel" id="workout-title" placeholder="What would be the workout title?" [(ngModel)]="workout.title" minlength="5" maxlength="20" required>
+                    <!--
+                      Managing multiple validation messages
+
+                      You'll see that the conditions for displaying the message now test for the length not being zero. This prevents the message from
+                       displaying in the event that the control is touched but left empty. In that case, the title required message should display. This
+                        message only displays if nothing is entered in the field and we accomplish this by checking explicitly to see if the control's
+                         hasError type is required:
+
+                      Since we are attaching two validators to this input field, we can consolidate the check for the input being touched by wrapping both
+                       validators in a div tag that checks for that condition being met:
+
+                                  <div *ngIf="title.touched">
+                                    . . . [the two validators] . . .
+                                  </div>
+                    -->
                     <div *ngIf="title.touched || submitted">
                         <label *ngIf="title.control.hasError('required')" class="alert alert-danger validation-message">Title is required.</label>
                         <label *ngIf="(title.control.hasError('minlength') || title.control.hasError('maxlength')) && workout.title.length > 0" class="alert alert-danger validation-message">Title should be between 5 and 20 characters long.</label>

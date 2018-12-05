@@ -95,6 +95,17 @@ export class WorkoutService {
         return null;
     }
 
+    /**
+     * Saving the workout
+     * The workout that we are building needs to be persisted (in-memory only). The first thing that
+     *  we need to do is extend WorkoutService and WorkoutBuilderService.
+     *
+     * WorkoutService needs two new methods, addWorkout and updateWorkout: ...
+     *
+     * The addWorkout method does a basic check on the workout name and then pushes the workout into
+     *  the workout array. Since there is no backing store involved, if we refresh the page, the data
+     *  is lost. We will fix this in the next chapter where we persist the data to a server.
+     */
     addWorkout(workout: WorkoutPlan) {
       if (workout.name) {
           this.workouts.push(workout);
@@ -102,6 +113,10 @@ export class WorkoutService {
         }
     }
 
+    /**
+     * The updateWorkout method looks for a workout with the same name in the existing workouts array
+     *  and if found, updates and replaces it.
+     */
     updateWorkout(workout: WorkoutPlan) {
       for (let i = 0; i < this.workouts.length; i++) {
           if (this.workouts[i].name === workout.name) {
