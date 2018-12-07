@@ -5,42 +5,22 @@ import { WorkoutService } from '../../core/workout.service';
 
 @Injectable()
 export class WorkoutBuilderService {
-    buildingWorkout: WorkoutPlan;
+    buildingWorkout: any;
     newWorkout: boolean;
     firstExercise = true;
 
-    constructor(
-      /**
-       * WorkoutBuilderService has a dependency on WorkoutService to provide persistence and querying capabilities.
-       *  We resolve this dependency by injecting WorkoutService into the constructor for WorkoutBuilderService:
-       */
-      public workoutService: WorkoutService
-      ) {}
+    constructor(public workoutService: WorkoutService) {}
 
-    /**
-     * WorkoutBuilderService also needs to track the workout being built. We use the buildingWorkout property for this.
-     *  The tracking starts when we call the startBuilding method on the service:
-     *
-     * The basic idea behind this tracking function is to set up a WorkoutPlan object (buildingWorkout) that will be made
-     *  available to components to manipulate the workout details. The startBuilding method takes the workout name as a
-     *  parameter. If the name is not provided, it implies we are creating a new workout, and hence a new WorkoutPlan object
-     *  is created and assigned; if not, we load the workout details by calling WorkoutService.getWorkout(name). In any case,
-     *  the buildingWorkout object has the workout being worked on.
-     */
-    startBuilding(name: string) {
-        if (name) {
-            this.buildingWorkout = this.workoutService.getWorkout(name);
-            /**
-             * The newWorkout object signifies whether the workout is new or an existing one. It is used to differentiate
-             *  between save and update situations when the save method on this service is called.
-             */
-            this.newWorkout = false;
-        } else {
-            const exerciseArray: ExercisePlan[] = [];
-            this.buildingWorkout = new WorkoutPlan('', '', 30, []);
-            this.newWorkout = true;
-        }
-        return this.buildingWorkout;
+    startBuildingNew() {
+      const exerciseArray: ExercisePlan[] = [];
+      this.buildingWorkout = new WorkoutPlan('', '', 30, exerciseArray);
+      this.newWorkout = true;
+      return this.buildingWorkout;
+    }
+
+    startBuildingExisting(name: string) {
+      this.newWorkout = false;
+      return this.workoutService.getWorkout(name);
     }
 
     removeExercise(exercise: ExercisePlan) {
@@ -62,11 +42,6 @@ export class WorkoutBuilderService {
         this.buildingWorkout.exercises.splice(toIndex, 0, this.buildingWorkout.exercises.splice(currentIndex, 1)[0]);
     }
 
-
-    /**
-     * We only add one save method to WorkoutBuilderService as we are already tracking the context
-     *  in which workout construction is going on: ....
-     */
     save() {
       const workout = this.newWorkout ?
           this.workoutService.addWorkout(this.buildingWorkout) :

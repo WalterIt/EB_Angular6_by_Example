@@ -7,10 +7,9 @@ import { WorkoutHistoryComponent } from './workout-history/workout-history.compo
 
 const routes: Routes = [
     { path: 'start', component: StartComponent },
-    { path: 'workout', component: WorkoutContainerComponent },
+    { path: 'workout/:id', component: WorkoutContainerComponent },
     { path: 'finish', component: FinishComponent },
     { path: 'history', component: WorkoutHistoryComponent },
-    // Lazy loading of routes
     { path: 'builder', loadChildren: './workout-builder/workout-builder.module#WorkoutBuilderModule'},
     { path: '**', redirectTo: '/start' }
 ];
