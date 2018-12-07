@@ -8,9 +8,26 @@
         <div class="col-sm-8 exercise-data">
             <div class="form-group">
                 <label for="name">Name:</label>
+                <!--
+                  We assign the name of our coded form control to formControlName. This establishes the link
+                   the control in our code and the input field in the markup. Another item of interest here is
+                   that we do not use the required attribute.
+                -->
                 <input name="name" formControlName="name" class="form-control" id="name" placeholder="Enter exercise name. Must be unique.">
+
+                <!--
+                  The next thing that we do is add a validation message to the control that will display in the
+                   event of a validation error:
+                -->
                 <label *ngIf="exerciseForm.controls['name'].hasError('required') && (exerciseForm.controls['name'].touched || submitted)" class="alert alert-danger validation-message">Name is required</label>
+
+                <!-- CUSTOMISED VALIDATOR : invalidAlphaNumeric
+                  The final step is to incorporate the appropriate validation message for the control into our template. Open workout.component.html and add the following label just below the label that displays the message for the required validator:
+
+                  As we hope you can see, reactive forms give us the ability to add custom validators to our forms in a straightforward manner that allows us to maintain the validation logic in our code and easily integrate it into our templates.
+                -->
                 <label *ngIf="exerciseForm.controls['name'].hasError('invalidAlphaNumeric') && (exerciseForm.controls['name'].touched || submitted)" class="alert alert-danger validation-message">Name must be alphanumeric</label>
+
             </div>
             <div class="form-group">
                 <label for="exercise-title">Title:</label>
@@ -40,15 +57,29 @@
             </div>
             <div class="form-group" formArrayName="videos">
                 <label>Videos:</label>
+                <!--  Adding dynamic form controls
+                  As we mentioned earlier, the Exercise form that we are building requires that we allow the user to add one or more videos to the exercise. Since we don't know how many videos the user may want to add, we will have to build the input fields for these videos dynamically as the user clicks on the Add Video button. Here's how it will look:
+                -->
+
+                <!--
+                  We first use ngFor to loop through our list of videos. Then, we assign the index in our videos to a local variable, i. No surprises so far:
+                -->
                 <div *ngFor="let video of videoArray.controls; let i=index" class="form-row align-items-center">
                     <div class="col-sm-10">
                       <input type="text" class="form-control" [formControlName]="i" placeholder="Add a related youtube video identified."/>
                     </div>
                     <div class="col-auto my-1">
+                      <!--
+                        We bind a deleteVideo method in our component class to the button's click event and pass to it the index of the video being deleted.
+                      -->
                       <span class="btn alert-danger" title="Delete this video." (click)="deleteVideo(i)">
                         <span class="ion-ios-trash-outline"></span>
                       </span>
                     </div>
+                    <!--
+                        The validation message follows the same pattern for displaying the message that we have used
+                           elsewhere in this chapter.
+                    -->
                     <label *ngIf="exerciseForm.controls['videos'].controls[i].hasError('required') && (exerciseForm.controls['videos'].controls[i].touched || submitted)" class="alert alert-danger validation-message">Video identifier is required</label>
                 </div>
             </div>
