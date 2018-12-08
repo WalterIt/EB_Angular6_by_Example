@@ -1,7 +1,6 @@
 /* Workout list
  To import workout list use a tool that can make POST request. The below instruction are using POSTMAN addin for chrome browser. Other tools like CURL, that can make http requests can also be used instead of POSTMAN.
  1. Open POSTMAN and paste the url https://api.mongolab.com/api/1/databases/<yourdatabasename>/collections/workouts?apiKey=<yourapikey>
-
  2. Update url with your database name (<yourdatabasename>) and api key (<yourapikey>).
  3. Change option from action dropdown to POST.
  4. Change data format tab to "raw"
@@ -16,7 +15,6 @@
     /* Exercise list
      To import exercise list use a tool that can make POST request. The below instruction are using POSTMAN addin for chrome browser. Other tools like CURL, that can make http requests can also be used instead of POSTMAN.
      1. Open POSTMAN and paste the url https://api.mongolab.com/api/1/databases/<yourdatabasename>/collections/exercises?apiKey=<yourapikey>
-
      2. Update url with your database name (<yourdatabasename>) and api key (<yourapikey>).
      3. Follow step 3 and 9 from above.
      */

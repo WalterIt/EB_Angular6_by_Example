@@ -21,13 +21,6 @@ export class WorkoutResolver implements Resolve<WorkoutPlan> {
     state: RouterStateSnapshot): Observable<WorkoutPlan> {
     const workoutName = route.paramMap.get('id');
 
-    /**
-     * As you can see, we have split out the behavior for a new workout (one where there is no workout name being passed
-     *  as a parameter in the URL) and that for an existing workout. In the former case, we call
-     * workoutBuilderService.startBuildingExisting, which will return a new WorkoutPlan. In the latter case, we call
-     * workoutBuilderService.startBuildingExisting and pipe the results and then map them to return the workout unless
-     *  it is not found, in which case we route the user back to the Workouts screen.
-     */
     if (!workoutName) {
         return this.workoutBuilderService.startBuildingNew();
     } else {

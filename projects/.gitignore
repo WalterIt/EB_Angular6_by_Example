@@ -41,9 +41,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
-#db
-/db/seed.1.js
-
 #Access to MLAB
-/src/app/core/workout.service.ts
-
+/projects/src/app/core/workout.service.ts
