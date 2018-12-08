@@ -43,6 +43,12 @@ export class WorkoutComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+      /**
+       * Once we have fixed the WorkoutBuilderService and the WorkoutResolver, there are actually no further
+       *  fixes needed in the WorkoutComponent. All the work to handle the Observables has been done further
+       *  downstream and all we need to do at this stage is subscribe to the route data and retrieve the workout
+       *  as we have already been doing:
+       */
       this.sub = this.route.data
           .subscribe(
             (data: { workout: WorkoutPlan }) => {
@@ -67,6 +73,10 @@ export class WorkoutComponent implements OnInit, OnDestroy {
   save(formWorkout: any) {
     this.submitted = true;
     if (!formWorkout.valid) { return; }
+    /**
+     * Here we have made a change so that we now subscribe to the save. As you may recall from our previous
+     *  discussions, subscribe makes an Observable live so that we can complete the save.
+     */
     this.workoutBuilderService.save().subscribe(
       success => this.router.navigate(['/builder/workouts']),
       err => console.error(err)

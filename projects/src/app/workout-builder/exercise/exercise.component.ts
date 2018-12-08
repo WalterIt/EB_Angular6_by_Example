@@ -28,6 +28,18 @@ export class ExerciseComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.route.data
+        /**
+         * The exercise and workout list pages (as well as LeftNavExercises) call either the getExercises or
+         *  getWorkouts method in model.ts. In order to get these working with the remote calls that are now
+         *  being made using the HTTPClient module, we need to modify those calls to subscribe to the Observable
+         *  that is being returned by the HTTPClient module. So, update the code in the ngOnInit method in
+         *  exercises.component.ts to the following: ...
+         *
+         * Our method now subscribes to the Observable that is being returned by the getExercises method; at the
+         *  point when the response arrives, it assigns the results to exerciseList. If there is an error, it assigns
+         *  it to a console.error call that displays the error in the console. All of this is now being handled
+         *  asynchronously using the HTTPClient module with RxJS.
+         */
         .subscribe(
           (data: { exercise: Exercise }) => {
             this.exercise = data.exercise;
