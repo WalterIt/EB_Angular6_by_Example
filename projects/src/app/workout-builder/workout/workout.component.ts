@@ -70,6 +70,10 @@ export class WorkoutComponent implements OnInit, OnDestroy {
     this.workoutBuilderService.removeExercise(exercisePlan);
   }
 
+  /**
+   * The save function now returns a promise that we build by calling the toPromise function on the observable
+   *  returned from the call to workoutBuilderService.save().
+   */
   save = (formWorkout: any): Promise<Object | WorkoutPlan> => {
     this.submitted = true;
     if (!formWorkout.valid) { return; }

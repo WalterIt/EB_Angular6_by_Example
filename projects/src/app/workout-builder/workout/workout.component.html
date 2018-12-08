@@ -42,12 +42,31 @@
              <div id="workout-data" class="col-sm-3 workout-data">
                 <div class="form-group row">
                     <label for="workout-name">Name:</label>
-                    <input type="text" name="workoutName" #name="ngModel" class="form-control" id="workout-name" placeholder="Enter workout name. Must be unique." [(ngModel)]="workout.name" 
+                    <!--
+                      The directive implementation takes two inputs: the validation key through directive property abeRemoveValidator, used to set the error key,
+                       and the validation function (validateFunction), called to validate the value of the control. Both inputs are annotated with the @Input decorator.
+
+                       When the async validation fires (on a change of input), Angular invokes the function, passing in the underlying control. As the first step, we
+                        pull the current input value and then invoke the validateFunction function with this input. The validateFunction returns a promise, which should
+                         eventually resolve to true or false: ...
+                         If the promise resolves to true, the validation is successful, the promise callback function returns null.
+                         If it is false, the validation has failed, and an error key-value map is returned. The key here is the string literal that we set when using the
+                          validator (a2beRemoteValidator="workoutname").
+
+                        This key comes in handy when there are multiple validators declared on the input, allowing us to identify validations that have failed.
+
+                        The last missing piece of this implementation is the actual validation function we assigned when applying the directive ([validateFunction]="validateWorkoutName"), but never implemented.
+                    -->
+                    <input type="text" name="workoutName" #name="ngModel" class="form-control" id="workout-name" placeholder="Enter workout name. Must be unique." [(ngModel)]="workout.name"
                         abeRemoteValidator="workoutname" [validateFunction]="validateWorkoutName"
                         [ngModelOptions]="{updateOn: 'blur'}"
                         abeBusyIndicator required>
                         <div *ngIf="name.touched || submitted">
                             <label *ngIf="name.control.hasError('required')" class="alert alert-danger validation-message">Name is required</label>
+                            <!--
+                              To the workout component next add a validation message for this failure too. Add this label declaration after the existing
+                               validation label for workout name:
+                            -->
                             <label *ngIf="name.control.hasError('workoutname')" class="alert alert-danger validation-message">A workout with this name already exists.</label>
                         </div>
                 </div>
@@ -81,7 +100,7 @@
                     <abe-ajax-button [execute]="save" [parameter]="f">
                         <div class="ion-md-cloud-upload spin" data-animator></div>
                         <span data-content>Save</span>
-                    </abe-ajax-button> 
+                    </abe-ajax-button>
                  </div>
              </div>
          </form>
