@@ -8,6 +8,12 @@ import { ExerciseProgressEvent, ExerciseChangedEvent } from '../../core/model';
   styles: []
 })
 export class WorkoutAudioComponent implements OnInit {
+  /**
+   * The directive (MyAudioDirective) associated with the audio tag was injected into the WorkoutAudio implementation
+   *  using the @ViewChild decorator. The parameters passed to @ViewChild are the template variable names (such as tick)
+   *  used to locate the element in the view definition. The WorkoutAudio component then used these audio directives to
+   *  control the audio playback for 7 Minute Workout.
+   */
   @ViewChild('ticks') private ticks: MyAudioDirective;
   @ViewChild('nextUp') private nextUp: MyAudioDirective;
   @ViewChild('nextUpExercise') private nextUpExercise: MyAudioDirective;
